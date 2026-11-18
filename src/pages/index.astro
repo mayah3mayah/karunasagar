@@ -244,7 +244,7 @@ window.addEventListener("touchmove", (event) => {
 
   touchTarget = Math.max(
     0,
-    Math.min(touchTarget + movement * scrollSpeed, maxScroll)
+    Math.min(touchTarget + movement * 0.8, maxScroll)
   );
 
   if (touchAnimation !== null) {
