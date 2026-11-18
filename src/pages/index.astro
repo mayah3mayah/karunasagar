@@ -217,19 +217,12 @@ window.addEventListener("wheel", (event) => {
   if (animationFrame === null) {
     animationFrame = requestAnimationFrame(smoothScroll);
   }
-}, { passive: false });
+}, 
+{ passive: false 
+	
+});
 
 // Mobile touch scrolling
-
-html {
-  scroll-behavior: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-body {
-  overscroll-behavior-y: auto;
-}
-
     
     </script>
   </body>

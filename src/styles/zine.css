@@ -17,21 +17,13 @@
 * {
   box-sizing: border-box;
 }
-
 html {
-  margin: 0;
-  padding: 0;
-  background: var(--zine-white);
   scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  background: var(--zine-white);
-  color: var(--zine-text);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: auto;
 }
 
 /* =========================================
@@ -299,6 +291,7 @@ body {
     letter-spacing: 0.04em;
   }
 }
+
 
 /* =========================================
    VERY NARROW PHONES
