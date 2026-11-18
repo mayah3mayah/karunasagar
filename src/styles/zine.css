@@ -1,0 +1,324 @@
+
+/* =========================================
+   KARUNA SAGAR — DIGITAL ZINE
+   ========================================= */
+
+:root {
+  --zine-blue: #1747c9;
+  --zine-white: #ffffff;
+  --zine-text: #171717;
+  --zine-width: 800px;
+}
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--zine-white);
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--zine-white);
+  color: var(--zine-text);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
+.site-header {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+}
+
+.navigation {
+  font-family: "IBM Plex Mono", monospace;
+
+  min-height: 47px;
+  width: 100%;
+  padding: 0 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.navigation-left {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.brand {
+  color: var(--zine-blue);
+  text-decoration: none;
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+.brand:hover {
+  opacity: 0.65;
+}
+
+.navigation-subtitle {
+  color: var(--zine-blue);
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+}
+
+.byline {
+  color: var(--zine-blue);
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* =========================================
+   READING PROGRESS BAR
+   ========================================= */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+
+  width: 100%;
+  height: 2px;
+
+  background: transparent;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.reading-progress__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  background: var(--zine-blue);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  will-change: transform;
+}
+
+/* =========================================
+   ZINE CONTAINER
+   ========================================= */
+
+.zine-container {
+  width: 100%;
+  padding: 0 18px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   IMAGE PAGES
+   ========================================= */
+
+.zine-page {
+  width: 100%;
+  max-width: var(--zine-width);
+
+  margin: 0 auto;
+  padding: 0;
+
+  line-height: 0;
+}
+
+.zine-image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  object-fit: contain;
+}
+
+/* =========================================
+   COVER
+   ========================================= */
+
+.cover-page {
+  margin-top: 0;
+  margin-bottom: 38px;
+}
+
+/* =========================================
+   INTERIOR PAGES
+   ========================================= */
+
+.zine-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 58px;
+}
+
+.interior-page {
+  margin: 0 auto;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.site-footer {
+  width: 100%;
+  max-width: var(--zine-width);
+
+  margin: 65px auto 0;
+  padding: 20px 0 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  border-top: 1px solid #eeeeee;
+
+  color: #777777;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 768px) {
+  :root {
+    --zine-width: 680px;
+  }
+
+  .navigation {
+    padding: 0 18px;
+    gap: 12px;
+  }
+
+  .navigation-left {
+    gap: 12px;
+  }
+
+  .navigation-subtitle {
+    font-size: 10px;
+  }
+
+  .zine-container {
+    padding: 0 12px;
+  }
+
+  .cover-page {
+    margin-bottom: 28px;
+  }
+
+  .zine-pages {
+    gap: 32px;
+  }
+
+  .site-footer {
+    margin-top: 45px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+  .navigation {
+    min-height: 43px;
+    padding: 0 11px;
+    gap: 7px;
+  }
+
+  .navigation-left {
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 10px;
+    letter-spacing: 0.045em;
+  }
+
+  .navigation-subtitle {
+    font-size: 8px;
+    letter-spacing: 0.015em;
+  }
+
+  .byline {
+    font-size: 9px;
+  }
+
+  .zine-container {
+    padding: 0 5px;
+  }
+
+  .cover-page {
+    margin-bottom: 20px;
+  }
+
+  .zine-pages {
+    gap: 24px;
+  }
+
+  .site-footer {
+    margin-top: 35px;
+    padding: 16px 5px 24px;
+    font-size: 7px;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* =========================================
+   VERY NARROW PHONES
+   ========================================= */
+
+@media (max-width: 350px) {
+  .navigation {
+    gap: 5px;
+    padding: 0 8px;
+  }
+
+  .brand {
+    font-size: 9px;
+  }
+
+  .navigation-subtitle {
+    font-size: 7px;
+  }
+
+  .byline {
+    font-size: 8px;
+  }
+}

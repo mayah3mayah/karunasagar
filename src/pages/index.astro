@@ -1,16 +1,235 @@
+
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import "../styles/zine.css";
+
+// Automatically discover all zine images
+const imageFiles = import.meta.glob(
+  "../assets/*.{jpg,jpeg,png,webp,avif}",
+  {
+    eager: true,
+    import: "default",
+  }
+) as Record<string, ImageMetadata>;
+
+const collator = new Intl.Collator(undefined, {
+  numeric: true,
+  sensitivity: "base",
+});
+
+const entries = Object.entries(imageFiles);
+
+// Find cover
+const coverEntry = entries.find(([path]) =>
+  /(^|\/)cover\.(jpg|jpeg|png|webp|avif)$/i.test(path)
+);
+
+// Find and sort interior pages
+const pages = entries
+  .filter(([path]) => /(^|\/)notes_/i.test(path))
+  .sort(([a], [b]) => collator.compare(a, b));
+
+const cover = coverEntry?.[1];
 ---
 
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Karuna Sagar — An everyday Ambedkarite zine by Mayah."
+    />
+
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>Karuna Sagar — An Everyday Ambedkarite Zine</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Navigation: scrolls away naturally -->
+    <header class="site-header">
+      <nav class="navigation" aria-label="Main navigation">
+        <div class="navigation-left">
+          <a class="brand" href="#top">KARUNA SAGAR</a>
+
+          <span class="navigation-subtitle">
+            an everyday Ambedkarite zine
+          </span>
+        </div>
+
+        <span class="byline">by mayah</span>
+      </nav>
+    </header>
+
+    <!-- Thin reading progress indicator -->
+    <div
+      class="reading-progress"
+      role="progressbar"
+      aria-label="Reading progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+    >
+      <span class="reading-progress__fill"></span>
+    </div>
+
+    <main id="top" class="zine-container">
+
+      <!-- Cover -->
+      {cover && (
+        <figure class="zine-page cover-page">
+          <Image
+            src={cover}
+            alt="Cover of Karuna Sagar"
+            class="zine-image"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+      )}
+
+      <!-- Interior pages -->
+      <section class="zine-pages" aria-label="Zine pages">
+        {pages.map((page, index) => (
+          <figure class="zine-page interior-page">
+            <Image
+              src={page[1]}
+              alt={`Karuna Sagar, page ${index + 1}`}
+              class="zine-image"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        ))}
+      </section>
+
+    </main>
+
+    <!-- Minimal ending -->
+    <footer class="site-footer">
+      <span>KARUNA SAGAR</span>
+      <span>AN EVERYDAY AMBEDKARITE ZINE BY MAYAH</span>
+    </footer>
+
+    <script>
+      // =====================================
+      // READING PROGRESS
+      // =====================================
+
+      const progress = document.querySelector(".reading-progress");
+      const progressFill = document.querySelector(
+        ".reading-progress__fill"
+      );
+
+      let ticking = false;
+
+      function updateProgress() {
+        const scrollable =
+          document.documentElement.scrollHeight - window.innerHeight;
+
+        const percentage =
+          scrollable > 0
+            ? Math.min(
+                100,
+                Math.max(0, (window.scrollY / scrollable) * 100)
+              )
+            : 0;
+
+        if (progressFill instanceof HTMLElement) {
+          progressFill.style.transform =
+            `scaleX(${percentage / 100})`;
+        }
+
+        if (progress instanceof HTMLElement) {
+          progress.setAttribute(
+            "aria-valuenow",
+            String(Math.round(percentage))
+          );
+        }
+
+        ticking = false;
+      }
+
+      function requestProgressUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(updateProgress);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener("scroll", requestProgressUpdate, {
+        passive: true,
+      });
+
+      window.addEventListener("resize", requestProgressUpdate);
+      window.addEventListener("load", updateProgress);
+
+      updateProgress();
+
+
+      // =====================================
+      // DESKTOP SCROLL SPEED: 0.65x
+      // =====================================
+	  const scrollSpeed = 0.65;
+let targetScroll = window.scrollY;
+let animationFrame = null;
+
+window.addEventListener(
+  "wheel",
+  (event) => {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+
+    targetScroll += event.deltaY * scrollSpeed;
+
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+
+    if (animationFrame !== null) return;
+
+    const animateScroll = () => {
+      const difference = targetScroll - window.scrollY;
+
+      if (Math.abs(difference) < 0.5) {
+        window.scrollTo(0, targetScroll);
+        animationFrame = null;
+        return;
+      }
+
+      window.scrollTo(
+        0,
+        window.scrollY + difference * 0.12
+      );
+
+      animationFrame = requestAnimationFrame(animateScroll);
+    };
+
+    animationFrame = requestAnimationFrame(animateScroll);
+  },
+  { passive: false }
+);
+     
+    
+    </script>
+  </body>
 </html>
