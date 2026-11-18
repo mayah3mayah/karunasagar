@@ -220,53 +220,16 @@ window.addEventListener("wheel", (event) => {
 }, { passive: false });
 
 // Mobile touch scrolling
-let touchStartY = 0;
-let touchTarget = window.scrollY;
-let touchAnimation = null;
 
-window.addEventListener("touchstart", (event) => {
-  touchStartY = event.touches[0].clientY;
-  touchTarget = window.scrollY;
-}, { passive: true });
+html {
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-window.addEventListener("touchmove", (event) => {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+body {
+  overscroll-behavior-y: auto;
+}
 
-  event.preventDefault();
-
-  const currentY = event.touches[0].clientY;
-  const movement = touchStartY - currentY;
-
-  touchStartY = currentY;
-
-  const maxScroll =
-    document.documentElement.scrollHeight - window.innerHeight;
-
-  touchTarget = Math.max(
-    0,
-    Math.min(touchTarget + movement * 0.8, maxScroll)
-  );
-
-  if (touchAnimation !== null) {
-    cancelAnimationFrame(touchAnimation);
-  }
-
-  const animateTouch = () => {
-    const difference = touchTarget - window.scrollY;
-
-    if (Math.abs(difference) < 0.5) {
-      window.scrollTo(0, touchTarget);
-      touchAnimation = null;
-      return;
-    }
-
-    window.scrollTo(0, window.scrollY + difference * 0.18);
-    touchAnimation = requestAnimationFrame(animateTouch);
-  };
-
-  touchAnimation = requestAnimationFrame(animateTouch);
-}, { passive: false });
-     
     
     </script>
   </body>
