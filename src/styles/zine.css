@@ -31,9 +31,17 @@ body {
    ========================================= */
 
 .site-header {
-  position: relative;
   width: 100%;
-  background: #ffffff;
+  padding: 14px 18px;
+}
+
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .navigation {
