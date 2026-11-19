@@ -3,7 +3,7 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import "../styles/zine.css";
-
+import SpeedInsights from "@vercel/speed-insights/astro";
 // Automatically discover all zine images
 const imageFiles = import.meta.glob(
   "../assets/*.{jpg,jpeg,png,webp,avif}",
@@ -225,5 +225,6 @@ window.addEventListener("wheel", (event) => {
 // Mobile touch scrolling
     
     </script>
+    <SpeedInsights />
   </body>
 </html>
